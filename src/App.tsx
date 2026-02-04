@@ -5,6 +5,7 @@ import Editor from './components/Editor';
 import Preview from './components/Preview';
 import Toolbar from './components/Toolbar';
 import ShortcutsModal from './components/ShortcutsModal';
+import PreviewModal from './components/PreviewModal';
 import { usePersistedState } from './hooks/usePersistedState';
 import { useMermaidParser } from './hooks/useMermaidParser';
 import { getShortcutById, matchesKeybinding } from './utils/shortcuts';
@@ -24,6 +25,7 @@ function App() {
   const { svg, error, isLoading } = useMermaidParser(code, isDarkMode);
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -194,6 +196,7 @@ function App() {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
         onExportSvg={handleExportSvg}
         onExportPng={handleExportPng}
+        onOpenPreview={() => setIsPreviewOpen(true)}
         hasError={!!error}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
       />
@@ -202,6 +205,12 @@ function App() {
         isOpen={isShortcutsOpen}
         onClose={() => setIsShortcutsOpen(false)}
         diagramType={diagramType}
+      />
+
+      <PreviewModal
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        svg={svg}
       />
 
       <div className="flex-1 min-h-0">

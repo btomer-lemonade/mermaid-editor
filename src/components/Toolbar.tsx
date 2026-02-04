@@ -1,5 +1,5 @@
 import type { DiagramType } from '../types';
-import { KeyboardIcon, SunIcon, MoonIcon, LogoIcon } from './Icons';
+import { KeyboardIcon, SunIcon, MoonIcon, LogoIcon, ExpandIcon } from './Icons';
 
 interface ToolbarProps {
   diagramType: DiagramType;
@@ -8,6 +8,7 @@ interface ToolbarProps {
   onToggleDarkMode: () => void;
   onExportSvg: () => void;
   onExportPng: () => void;
+  onOpenPreview: () => void;
   hasError: boolean;
   onOpenShortcuts: () => void;
 }
@@ -19,6 +20,7 @@ export default function Toolbar({
   onToggleDarkMode,
   onExportSvg,
   onExportPng,
+  onOpenPreview,
   hasError,
   onOpenShortcuts,
 }: ToolbarProps) {
@@ -60,6 +62,15 @@ export default function Toolbar({
         </button>
 
         <div className="w-px h-6 bg-slate-200 dark:bg-slate-700" />
+
+        <button
+          onClick={onOpenPreview}
+          className="toolbar-btn"
+          disabled={hasError}
+          title="Open fullscreen preview"
+        >
+          <ExpandIcon className="w-4 h-4" />
+        </button>
 
         <button
           onClick={onExportSvg}
